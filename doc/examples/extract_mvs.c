@@ -159,7 +159,6 @@ int main(int argc, char **argv)
 
     /* read frames from the file */
     while (av_read_frame(fmt_ctx, &pkt) >= 0) {
-        AVPacket orig_pkt = pkt;
         do {
             ret = decode_packet(&got_frame, 0);
             if (ret < 0)
@@ -167,7 +166,6 @@ int main(int argc, char **argv)
             pkt.data += ret;
             pkt.size -= ret;
         } while (pkt.size > 0);
-        av_packet_unref(&orig_pkt);
     }
 
     /* flush cached frames */
